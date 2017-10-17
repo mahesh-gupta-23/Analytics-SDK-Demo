@@ -12,7 +12,14 @@ public class ASValidator {
             throwException(ASError.api_error);
             return false;
         }
+        return true;
+    }
 
+    public static boolean userIdValidator(String user_id) {
+        if (user_id == null) {
+            throwException(ASError.user_id_error);
+            return false;
+        }
         return true;
     }
 
