@@ -1,18 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.maheshgupta.analyticssdkdemo.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context="com.maheshgupta.analyticssdkdemo.MainActivity">
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/edtStringKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/identity_key" />
+
+        <EditText
+            android:id="@+id/edtStringValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtStringKey"
+            android:layout_marginTop="5dp"
+            android:hint="@string/identity_value" />
+
+        <Button
+            android:id="@+id/btnStringDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtStringValue"
+            android:layout_centerHorizontal="true"
+            android:text="@string/string_done" />
+
+
+        <EditText
+            android:id="@+id/edtNumberKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnStringDone"
+            android:layout_marginTop="50dp"
+            android:hint="@string/identity_key" />
+
+        <EditText
+            android:id="@+id/edtNumberValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtNumberKey"
+            android:layout_marginTop="5dp"
+            android:hint="@string/number_value"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/btnIntDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtNumberValue"
+            android:layout_centerHorizontal="true"
+            android:text="@string/number_done" />
+
+    </RelativeLayout>
+</layout>

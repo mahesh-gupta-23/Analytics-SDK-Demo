@@ -3,8 +3,6 @@ package com.maheshgupta.analyticssdk.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.maheshgupta.analyticssdk.dao.user.UserDetails;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,16 +41,16 @@ public class AppUseTime {
         public static final String AUTO_ID = "auto_id";
         public static final String START_TIME = "start_time";
 
-        public static final String[] COLUMNS = new String[]{AUTO_ID,
-                START_TIME};
+        public static final String[] COLUMNS = new String[]{AppUseTimeRepo.AUTO_ID,
+                AppUseTimeRepo.START_TIME};
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + AUTO_ID + " integer primary key autoincrement, " + START_TIME + " TEXT"
+        public static final String CREATE_TABLE = "CREATE TABLE " + AppUseTimeRepo.TABLE_NAME + "("
+                + AppUseTimeRepo.AUTO_ID + " integer primary key autoincrement, " + AppUseTimeRepo.START_TIME + " TEXT"
                 + ")";
 
         public static ContentValues getContentValues(AppUseTime appUseTime) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(START_TIME, appUseTime.getStart_time());
+            contentValues.put(AppUseTimeRepo.START_TIME, appUseTime.getStart_time());
             return contentValues;
         }
 
@@ -63,8 +61,8 @@ public class AppUseTime {
             List<AppUseTime> appUseTimeList = new ArrayList<>();
             while (cursor.moveToNext()) {
                 appUseTimeList.add(new AppUseTime(
-                        cursor.getInt(cursor.getColumnIndex(AUTO_ID)),
-                        cursor.getString(cursor.getColumnIndex(START_TIME))
+                        cursor.getInt(cursor.getColumnIndex(AppUseTimeRepo.AUTO_ID)),
+                        cursor.getString(cursor.getColumnIndex(AppUseTimeRepo.START_TIME))
                 ));
             }
             cursor.close();

@@ -3,11 +3,16 @@ package com.maheshgupta.analyticssdk;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.evernote.android.job.JobManager;
 import com.maheshgupta.analyticssdk.dao.AppUseTime;
 import com.maheshgupta.analyticssdk.dao.DbHelper;
+import com.maheshgupta.analyticssdk.dao.OtherEvent;
 import com.maheshgupta.analyticssdk.dao.user.UserDetails;
 import com.maheshgupta.analyticssdk.dao.user.UserMaster;
+import com.maheshgupta.analyticssdk.jobs.AnalyticsJobCreator;
+import com.maheshgupta.analyticssdk.jobs.UploadDataJob;
 import com.maheshgupta.analyticssdk.upload_data.CheckUploadData;
 import com.maheshgupta.analyticssdk.utils.ASValidator;
 import com.maheshgupta.analyticssdk.utils.DeviceHelper;
@@ -15,6 +20,11 @@ import com.maheshgupta.analyticssdk.utils.PreferencesHelper;
 import com.maheshgupta.analyticssdk.utils.TimeHelper;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.Map;
+
+import static android.R.attr.key;
+import static android.os.Build.VERSION_CODES.N;
 
 public class AnalyticsMp {
     private static AnalyticsMp instance = null;
@@ -58,7 +68,9 @@ public class AnalyticsMp {
                     TimeHelper.getTimeStamp()
             ));
 
-            CheckUploadData.getInstance(context).checkPendingUpload(api_key);
+            JobManager.create(context).addJobCreator(new AnalyticsJobCreator());
+
+            UploadDataJob.schedulePeriodicJob();
         }
     }
 
@@ -87,19 +99,18 @@ public class AnalyticsMp {
                 PreferencesHelper.setApp_version(versionCode);
             }
         }
-
-        CheckUploadData.getInstance(context).checkPendingUpload(apiKey);
     }
 
     public void identify(Identify identify) {
-        dbHelper.saveUserDetails(new UserDetails(
-                PreferencesHelper.getUser_id(),
-                identify.getKey(),
-                identify.getValue(),
-                TimeHelper.getTimeStamp()
-        ));
+        for (String key : identify.getIdentityData().keySet()) {
+            dbHelper.saveUserDetails(new UserDetails(PreferencesHelper.getUser_id(), key,
+                    identify.getIdentityData().get(key), TimeHelper.getTimeStamp()));
+        }
+    }
 
-        CheckUploadData.getInstance(context).checkPendingUpload(apiKey);
+    public void saveEvents(Events events) {
+        dbHelper.saveOtherEvent(new OtherEvent(PreferencesHelper.getUser_id(),
+                events.getKey(), events.getValue()));
     }
 
     private String getOsName() {

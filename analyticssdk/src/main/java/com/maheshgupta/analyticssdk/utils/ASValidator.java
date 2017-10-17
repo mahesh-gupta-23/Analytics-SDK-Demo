@@ -25,7 +25,7 @@ public class ASValidator {
         return true;
     }
 
-    static void throwException(String exception) {
+    public static void throwException(String exception) {
         throw new IllegalStateException(exception);
     }
 

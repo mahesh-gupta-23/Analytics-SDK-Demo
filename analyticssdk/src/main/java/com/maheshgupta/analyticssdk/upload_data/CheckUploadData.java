@@ -3,6 +3,7 @@ package com.maheshgupta.analyticssdk.upload_data;
 import android.content.Context;
 import android.util.Log;
 
+import com.evernote.android.job.Job;
 import com.maheshgupta.analyticssdk.dao.DbHelper;
 import com.maheshgupta.analyticssdk.network.ApiClient;
 
@@ -15,18 +16,30 @@ import retrofit2.Response;
 public class CheckUploadData {
     private DbHelper dbHelper;
     private static CheckUploadData instance;
+    private UploadListener listener;
 
-    private CheckUploadData(Context context) {
+    public interface UploadListener {
+        Job.Result onUploaded();
+
+        Job.Result onError();
+    }
+
+    public void setUploadListener(UploadListener listener) {
+        this.listener = listener;
+    }
+
+    private CheckUploadData(Context context, UploadListener listener) {
         dbHelper = new DbHelper(context);
     }
 
-    public static CheckUploadData getInstance(Context context) {
+    public static CheckUploadData getInstance(Context context, UploadListener listner) {
         if (instance == null)
-            instance = new CheckUploadData(context);
+            instance = new CheckUploadData(context, listner);
         return instance;
     }
 
     public void checkPendingUpload(String api_key) {
+        Log.d("AnSDKDemo", "Upload called");
         UserDataUploadModel userDataUploadModel = new UserDataUploadModel();
 
         userDataUploadModel.setAppUseTimeList(dbHelper.getAppUseTime());
@@ -37,6 +50,7 @@ public class CheckUploadData {
                 userDataUploadModel.getUserMasterList().size() > 0 ||
                 userDataUploadModel.getUserDetailsList().size() > 0)
             uploadDataToServer(userDataUploadModel, api_key);
+        else listener.onUploaded();
     }
 
     private void uploadDataToServer(UserDataUploadModel uploadDataJson, final String api_key) {
@@ -47,6 +61,7 @@ public class CheckUploadData {
             public void onResponse(Call<UploadDataResponse> call, Response<UploadDataResponse> response) {
                 List<String> appUseTimeIdList = response.body().getAppUseTimeIdList();
                 List<String> userDetailsIdList = response.body().getUserDetailsIdList();
+                List<String> otherEventIdList = response.body().getOtherEventIdList();
 
                 //Delete the data after uploading
                 dbHelper.deleteAllUserMaster();
@@ -56,6 +71,10 @@ public class CheckUploadData {
 
                 for (int i = 0; i < userDetailsIdList.size(); i++) {
                     dbHelper.deleteAppUseTime(userDetailsIdList.get(i));
+                }
+
+                for (int i = 0; i < otherEventIdList.size(); i++) {
+                    dbHelper.deleteOtherEvent(otherEventIdList.get(i));
                 }
 
                 //Check if some more data need to be uploaded
@@ -68,6 +87,8 @@ public class CheckUploadData {
                 if (call.isCanceled()) {
                     Log.d("AnSDKDemo", "No internet connection");
                 }
+
+                listener.onError();
             }
         });
     }

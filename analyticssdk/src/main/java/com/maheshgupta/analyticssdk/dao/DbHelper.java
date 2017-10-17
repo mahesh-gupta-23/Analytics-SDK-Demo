@@ -4,11 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.maheshgupta.analyticssdk.dao.user.UserDetails;
 import com.maheshgupta.analyticssdk.dao.user.UserMaster;
 
 import java.util.List;
+
+import static com.maheshgupta.analyticssdk.dao.user.UserDetails.UserDetailsRepo.getUserDetailsList;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -24,6 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(UserMaster.UserMasterRepo.CREATE_TABLE);
         sqLiteDatabase.execSQL(UserDetails.UserDetailsRepo.CREATE_TABLE);
         sqLiteDatabase.execSQL(AppUseTime.AppUseTimeRepo.CREATE_TABLE);
+        sqLiteDatabase.execSQL(OtherEvent.OtherEventRepo.CREATE_TABLE);
     }
 
     @Override
@@ -31,6 +35,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserMaster.UserMasterRepo.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserDetails.UserDetailsRepo.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AppUseTime.AppUseTimeRepo.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + OtherEvent.OtherEventRepo.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -42,16 +47,29 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void saveUserDetails(UserDetails userDetails) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(UserDetails.UserDetailsRepo.TABLE_NAME, null,
-                UserDetails.UserDetailsRepo.getContentValues(userDetails));
-        db.close();
+        Log.d("user_details", "" + userDetails.toString());
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.insert(UserDetails.UserDetailsRepo.TABLE_NAME, null,
+                    UserDetails.UserDetailsRepo.getContentValues(userDetails));
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveAppStartTime(AppUseTime appUseTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(AppUseTime.AppUseTimeRepo.TABLE_NAME, null,
                 AppUseTime.AppUseTimeRepo.getContentValues(appUseTime));
+        db.close();
+    }
+
+    public void saveOtherEvent(OtherEvent otherEvent) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(OtherEvent.OtherEventRepo.TABLE_NAME, null,
+                OtherEvent.OtherEventRepo.getContentValues(otherEvent));
         db.close();
     }
 
@@ -82,7 +100,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Fetching list of user details list only 200 at a time
+     * Fetching list of user details list
      *
      * @return List of User details entity
      */
@@ -90,8 +108,21 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(UserDetails.UserDetailsRepo.TABLE_NAME,
                 UserDetails.UserDetailsRepo.COLUMNS, null,
-                null, null, null, null, "200");
-        return UserDetails.UserDetailsRepo.getUserDetailsList(cursor);
+                null, null, null, null, null);
+        return getUserDetailsList(cursor);
+    }
+
+    /**
+     * Fetching list of user details list
+     *
+     * @return List of User details entity
+     */
+    public List<OtherEvent> getOtherEventList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(OtherEvent.OtherEventRepo.TABLE_NAME,
+                OtherEvent.OtherEventRepo.COLUMNS, null,
+                null, null, null, null, null);
+        return OtherEvent.OtherEventRepo.getOtherEventList(cursor);
     }
 
     /**
@@ -127,5 +158,15 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
+    /**
+     * Delete uploaded OtherEvent data
+     *
+     * @param auto_id auto id of OtherEvent
+     */
+    public void deleteOtherEvent(String auto_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(OtherEvent.OtherEventRepo.TABLE_NAME,
+                OtherEvent.OtherEventRepo.AUTO_ID + " = '" + auto_id + "'", null);
+        db.close();
+    }
 }

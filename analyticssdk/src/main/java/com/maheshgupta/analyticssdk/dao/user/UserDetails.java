@@ -6,11 +6,6 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.APPLICATION_VERSION;
-import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.DEVICE_MAKE;
-import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.DEVICE_MODEL;
-import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.OS;
-import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.OS_VERSION;
 
 public class UserDetails {
     private int auto_id;
@@ -50,6 +45,10 @@ public class UserDetails {
         return value;
     }
 
+    public String getTime_stamp() {
+        return time_stamp;
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
@@ -84,7 +83,7 @@ public class UserDetails {
             contentValues.put(UserDetailsRepo.USER_ID, userDetails.getUser_id());
             contentValues.put(UserDetailsRepo.KEY, userDetails.getKey());
             contentValues.put(UserDetailsRepo.VALUE, userDetails.getValue());
-            contentValues.put(UserDetailsRepo.TIME_STAMP, userDetails.getValue());
+            contentValues.put(UserDetailsRepo.TIME_STAMP, userDetails.getTime_stamp());
             return contentValues;
         }
 

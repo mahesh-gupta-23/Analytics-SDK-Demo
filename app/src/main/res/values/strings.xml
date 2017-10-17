@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">AnalyticsSDKDemo</string>
+    <string name="identity_key">Identity Key</string>
+    <string name="identity_value">Identity Value</string>
+    <string name="string_done">String Done</string>
+    <string name="number_done">Number Done</string>
+    <string name="number_value">Number Value</string>
+    <string name="values_inserted">Values Inserted Successfully</string>
+    <string name="number_key_error">Number Key Cannot be empty</string>
+    <string name="number_value_error">Number Value Cannot be empty</string>
+    <string name="string_key_error">String Key Cannot be empty</string>
+    <string name="string_value_error">String Value Cannot be empty</string>
 </resources>

@@ -2,37 +2,38 @@ package com.maheshgupta.analyticssdk;
 
 import android.support.annotation.NonNull;
 
+import java.util.HashMap;
+
+
 public class Identify {
 
+    private HashMap<String, String> identityData;
 
-    private String key, value;
-
-    public String getKey() {
-        return key;
+    public Identify() {
+        identityData = new HashMap<>();
     }
 
-    public String getValue() {
-        return value;
+    public HashMap<String, String> getIdentityData() {
+        return identityData;
     }
 
-    public void set(@NonNull String key, @NonNull String value) {
-        this.key = key;
-        this.value = value;
+    public Identify set(@NonNull String key, @NonNull String value) {
+        identityData.put(key, value);
+        return this;
     }
 
-    public void set(@NonNull String key, @NonNull int value) {
-        this.key = key;
-        this.value = String.valueOf(value);
+    public Identify set(@NonNull String key, @NonNull int value) {
+        identityData.put(key, String.valueOf(value));
+        return this;
     }
 
-    public void set(@NonNull String key, @NonNull double value) {
-        this.key = key;
-        this.value = String.valueOf(value);
+    public Identify set(@NonNull String key, @NonNull double value) {
+        identityData.put(key, String.valueOf(value));
+        return this;
     }
 
-    public void set(@NonNull String key, @NonNull float value) {
-        this.key = key;
-        this.value = String.valueOf(value);
+    public Identify set(@NonNull String key, @NonNull float value) {
+        identityData.put(key, String.valueOf(value));
+        return this;
     }
-
 }

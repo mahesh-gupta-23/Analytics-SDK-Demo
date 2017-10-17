@@ -1,6 +1,7 @@
 package com.maheshgupta.analyticssdk.upload_data;
 
 import com.maheshgupta.analyticssdk.dao.AppUseTime;
+import com.maheshgupta.analyticssdk.dao.OtherEvent;
 import com.maheshgupta.analyticssdk.dao.user.UserDetails;
 import com.maheshgupta.analyticssdk.dao.user.UserMaster;
 
@@ -10,6 +11,7 @@ public class UserDataUploadModel {
     private List<AppUseTime> appUseTimeList;
     private List<UserMaster> userMasterList;
     private List<UserDetails> userDetailsList;
+    private List<OtherEvent> otherEventList;
 
     public void setAppUseTimeList(List<AppUseTime> appUseTimeList) {
         this.appUseTimeList = appUseTimeList;
@@ -21,6 +23,14 @@ public class UserDataUploadModel {
 
     public void setUserDetailsList(List<UserDetails> userDetailsList) {
         this.userDetailsList = userDetailsList;
+    }
+
+    public List<OtherEvent> getOtherEventList() {
+        return otherEventList;
+    }
+
+    public void setOtherEventList(List<OtherEvent> otherEventList) {
+        this.otherEventList = otherEventList;
     }
 
     public List<AppUseTime> getAppUseTimeList() {
@@ -41,6 +51,7 @@ public class UserDataUploadModel {
                 "\nappUseTimeList=" + appUseTimeList +
                 ",\n userMasterList=" + userMasterList +
                 ",\n userDetailsList=" + userDetailsList +
+                ",\n otherEventList=" + otherEventList +
                 '}';
     }
 }
