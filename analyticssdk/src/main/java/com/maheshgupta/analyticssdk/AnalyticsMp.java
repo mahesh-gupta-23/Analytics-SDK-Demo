@@ -8,6 +8,8 @@ import com.maheshgupta.analyticssdk.dao.AppUseTime;
 import com.maheshgupta.analyticssdk.dao.DbHelper;
 import com.maheshgupta.analyticssdk.dao.user.UserDetails;
 import com.maheshgupta.analyticssdk.dao.user.UserMaster;
+import com.maheshgupta.analyticssdk.upload_data.CheckUploadData;
+import com.maheshgupta.analyticssdk.utils.ASValidator;
 import com.maheshgupta.analyticssdk.utils.DeviceHelper;
 import com.maheshgupta.analyticssdk.utils.PreferencesHelper;
 import com.maheshgupta.analyticssdk.utils.TimeHelper;
@@ -55,6 +57,8 @@ public class AnalyticsMp {
             dbHelper.saveAppStartTime(new AppUseTime(
                     TimeHelper.getTimeStamp()
             ));
+
+            CheckUploadData.getInstance(context).checkPendingUpload(api_key);
         }
     }
 
@@ -76,7 +80,6 @@ public class AnalyticsMp {
                         DeviceHelper.getDeviceMake(),
                         DeviceHelper.getDeviceModel(),
                         getOsName(),
-                        "0",
                         TimeHelper.getTimeStamp()
                 ));
 
@@ -84,6 +87,8 @@ public class AnalyticsMp {
                 PreferencesHelper.setApp_version(versionCode);
             }
         }
+
+        CheckUploadData.getInstance(context).checkPendingUpload(apiKey);
     }
 
     public void identify(Identify identify) {
@@ -93,6 +98,8 @@ public class AnalyticsMp {
                 identify.getValue(),
                 TimeHelper.getTimeStamp()
         ));
+
+        CheckUploadData.getInstance(context).checkPendingUpload(apiKey);
     }
 
     private String getOsName() {

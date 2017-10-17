@@ -1,6 +1,8 @@
-package com.maheshgupta.analyticssdk;
+package com.maheshgupta.analyticssdk.utils;
 
 import android.content.Context;
+
+import com.maheshgupta.analyticssdk.utils.ASError;
 
 public class ASValidator {
 

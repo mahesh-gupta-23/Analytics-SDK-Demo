@@ -6,6 +6,12 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.APPLICATION_VERSION;
+import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.DEVICE_MAKE;
+import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.DEVICE_MODEL;
+import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.OS;
+import static com.maheshgupta.analyticssdk.dao.user.UserMaster.UserMasterRepo.OS_VERSION;
+
 public class UserDetails {
     private int auto_id;
     private String user_id;
@@ -63,17 +69,22 @@ public class UserDetails {
         public static final String VALUE = "value";
         public static final String TIME_STAMP = "time_stamp";
 
-        public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + AUTO_ID + " integer PRIMARY KEY autoincrement, " + USER_ID + " TEXT, "
-                + KEY + " TEXT , " + VALUE + " TEXT, " + TIME_STAMP + " TEXT "
+        public static final String[] COLUMNS = new String[]{UserDetailsRepo.AUTO_ID,
+                UserDetailsRepo.USER_ID, UserDetailsRepo.KEY, UserDetailsRepo.VALUE,
+                UserDetailsRepo.TIME_STAMP};
+
+        public static final String CREATE_TABLE = "CREATE TABLE " + UserDetailsRepo.TABLE_NAME
+                + "(" + UserDetailsRepo.AUTO_ID + " integer PRIMARY KEY autoincrement, "
+                + UserDetailsRepo.USER_ID + " TEXT, " + UserDetailsRepo.KEY + " TEXT , "
+                + UserDetailsRepo.VALUE + " TEXT, " + UserDetailsRepo.TIME_STAMP + " TEXT "
                 + ")";
 
         public static ContentValues getContentValues(UserDetails userDetails) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(USER_ID, userDetails.getUser_id());
-            contentValues.put(KEY, userDetails.getKey());
-            contentValues.put(VALUE, userDetails.getValue());
-            contentValues.put(TIME_STAMP, userDetails.getValue());
+            contentValues.put(UserDetailsRepo.USER_ID, userDetails.getUser_id());
+            contentValues.put(UserDetailsRepo.KEY, userDetails.getKey());
+            contentValues.put(UserDetailsRepo.VALUE, userDetails.getValue());
+            contentValues.put(UserDetailsRepo.TIME_STAMP, userDetails.getValue());
             return contentValues;
         }
 
@@ -84,11 +95,11 @@ public class UserDetails {
             List<UserDetails> userDetailsList = new ArrayList<>();
             while (cursor.moveToNext()) {
                 userDetailsList.add(new UserDetails(
-                        cursor.getInt(cursor.getColumnIndex(AUTO_ID)),
-                        cursor.getString(cursor.getColumnIndex(USER_ID)),
-                        cursor.getString(cursor.getColumnIndex(KEY)),
-                        cursor.getString(cursor.getColumnIndex(VALUE)),
-                        cursor.getString(cursor.getColumnIndex(TIME_STAMP))
+                        cursor.getInt(cursor.getColumnIndex(UserDetailsRepo.AUTO_ID)),
+                        cursor.getString(cursor.getColumnIndex(UserDetailsRepo.USER_ID)),
+                        cursor.getString(cursor.getColumnIndex(UserDetailsRepo.KEY)),
+                        cursor.getString(cursor.getColumnIndex(UserDetailsRepo.VALUE)),
+                        cursor.getString(cursor.getColumnIndex(UserDetailsRepo.TIME_STAMP))
                 ));
             }
             cursor.close();

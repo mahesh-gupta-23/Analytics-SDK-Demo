@@ -43,6 +43,9 @@ public class AppUseTime {
         public static final String AUTO_ID = "auto_id";
         public static final String START_TIME = "start_time";
 
+        public static final String[] COLUMNS = new String[]{AUTO_ID,
+                START_TIME};
+
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + AUTO_ID + " integer primary key autoincrement, " + START_TIME + " TEXT"
                 + ")";

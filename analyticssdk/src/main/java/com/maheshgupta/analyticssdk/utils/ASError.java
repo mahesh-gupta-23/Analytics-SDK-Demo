@@ -1,4 +1,4 @@
-package com.maheshgupta.analyticssdk;
+package com.maheshgupta.analyticssdk.utils;
 
 public class ASError {
     public static final String context_error = "Context cannot be null";
