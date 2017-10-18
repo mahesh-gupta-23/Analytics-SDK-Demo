@@ -74,7 +74,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Fetching List of App use time entity only 200 at a time
+     * Fetching List of App use time entity
      *
      * @return List of AppUseTime Entity list
      */
@@ -82,7 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(AppUseTime.AppUseTimeRepo.TABLE_NAME,
                 AppUseTime.AppUseTimeRepo.COLUMNS, null,
-                null, null, null, null, "200");
+                null, null, null, null, null);
         return AppUseTime.AppUseTimeRepo.getAppUseTimeList(cursor);
     }
 

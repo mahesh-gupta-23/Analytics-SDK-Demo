@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class UploadDataJob extends Job {
-    public static final String TAG = "UploadDataJob";
+    static final String TAG = "UploadDataJob";
     private DbHelper dbHelper;
 
     public static void scheduleJob() {
@@ -37,7 +37,6 @@ public class UploadDataJob extends Job {
                 .schedule();
     }
 
-
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
@@ -47,10 +46,12 @@ public class UploadDataJob extends Job {
         userDataUploadModel.setAppUseTimeList(dbHelper.getAppUseTime());
         userDataUploadModel.setUserMasterList(dbHelper.getUserMaster());
         userDataUploadModel.setUserDetailsList(dbHelper.getUserDetails());
+        userDataUploadModel.setOtherEventList(dbHelper.getOtherEventList());
 
         if (userDataUploadModel.getAppUseTimeList().size() > 0 ||
                 userDataUploadModel.getUserMasterList().size() > 0 ||
-                userDataUploadModel.getUserDetailsList().size() > 0) {
+                userDataUploadModel.getUserDetailsList().size() > 0 ||
+                userDataUploadModel.getOtherEventList().size() > 0) {
             return uploadDataToServer(userDataUploadModel, getApiKey(getContext()));
         } else {
             return Result.SUCCESS;
@@ -73,7 +74,7 @@ public class UploadDataJob extends Job {
             }
 
             for (int i = 0; i < userDetailsIdList.size(); i++) {
-                dbHelper.deleteAppUseTime(userDetailsIdList.get(i));
+                dbHelper.deleteUserDetails(userDetailsIdList.get(i));
             }
 
             for (int i = 0; i < otherEventIdList.size(); i++) {

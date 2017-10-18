@@ -6,7 +6,6 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class UserDetails {
     private int auto_id;
     private String user_id;

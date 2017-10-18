@@ -4,10 +4,8 @@ package com.maheshgupta.analyticssdk.network;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import com.maheshgupta.analyticssdk.jobs.UploadDataJob;
-import com.maheshgupta.analyticssdk.upload_data.CheckUploadData;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 

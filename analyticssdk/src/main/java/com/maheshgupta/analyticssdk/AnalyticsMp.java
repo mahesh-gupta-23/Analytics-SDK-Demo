@@ -3,7 +3,6 @@ package com.maheshgupta.analyticssdk;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.evernote.android.job.JobManager;
 import com.maheshgupta.analyticssdk.dao.AppUseTime;
@@ -13,18 +12,12 @@ import com.maheshgupta.analyticssdk.dao.user.UserDetails;
 import com.maheshgupta.analyticssdk.dao.user.UserMaster;
 import com.maheshgupta.analyticssdk.jobs.AnalyticsJobCreator;
 import com.maheshgupta.analyticssdk.jobs.UploadDataJob;
-import com.maheshgupta.analyticssdk.upload_data.CheckUploadData;
 import com.maheshgupta.analyticssdk.utils.ASValidator;
 import com.maheshgupta.analyticssdk.utils.DeviceHelper;
 import com.maheshgupta.analyticssdk.utils.PreferencesHelper;
 import com.maheshgupta.analyticssdk.utils.TimeHelper;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.Map;
-
-import static android.R.attr.key;
-import static android.os.Build.VERSION_CODES.N;
 
 public class AnalyticsMp {
     private static AnalyticsMp instance = null;
